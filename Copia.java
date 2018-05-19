@@ -38,8 +38,11 @@ public class Copia{
 				String timeZone = values[13];
 				
 				Customer c = new Customer(firstName, lastName, street, city, state, postal,
-						country, email, phone, latitude, longitude, categories, pickUp, timeZone);
-				customers.add(c);			
+						country, email, phone, latitude, longitude, categories, timeZone);
+				
+				c.setPickUp(c.convertTime(pickUp));
+				//System.out.println(c.getFirstName() +" "+c.getPickUp()[3]);
+				customers.add(c);
 			}
 			
 			BufferedReader br1 = new BufferedReader(new FileReader(recipientData));
@@ -81,7 +84,7 @@ public class Copia{
 				r.getTimes().add(Global.Friday, Fri);
 				r.getTimes().add(Global.Saturday, Sat);
 				recipients.add(r);
-				System.out.println(recipients.get(i).getTimes().get(Global.Sunday));
+				//System.out.println(recipients.get(i).getTimes().get(Global.Sunday));
 				i++;
 			}
 			System.out.println("Customers: " + customers.size() + " Recipients: "+ recipients.size());

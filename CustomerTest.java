@@ -22,8 +22,7 @@ class CustomerTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		c = new Customer("Brett","Sullivan","2784 Ella Street","San Francisco","CA","94107","US",
-				"BrettJSullivan@teleworm.us","650-262-4366",37.728912,-122.324225,45,
-				"2016-11-29T16:00:00-08:00","America/Los_Angeles");
+				"BrettJSullivan@teleworm.us","650-262-4366",37.728912,-122.324225,45,"America/Los_Angeles");
 		r = new Recipient("Tanya","Matthews","1780 Black Oak Hollow Road","San Francisco","CA","94107","US",
 				"TanyaKMatthews@teleworm.us","408-702-0996",37.809052,-122.483365,7);
 				//,44536,44382,19514,12035,18094,41561,55924);
