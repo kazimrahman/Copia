@@ -6,7 +6,6 @@ public class Copia{
 	public static void main(String[] args){
 		ArrayList<Customer> customers = new ArrayList<>();
 		ArrayList<Recipient> recipients = new ArrayList<>();
-		//User u = new Customer();
 		try{
 			File customerData = new File("Customers.csv");
 			File recipientData = new File("Recipients.csv");
@@ -87,8 +86,21 @@ public class Copia{
 				//System.out.println(recipients.get(i).getTimes().get(Global.Sunday));
 				i++;
 			}
-			System.out.println("Customers: " + customers.size() + " Recipients: "+ recipients.size());
-			customers.get(159).match(recipients);
+			//output matches and stuff to csv
+			
+			//System.out.println(customers.get(0).getMatches().get(0).getFirstName());
+			PrintWriter pw = new PrintWriter(outFile);
+			for(Customer c : customers) {
+				c.match(recipients);
+				String custName = c.getFirstName() + " " +c.getLastName();
+				//pw.println(custName);
+				for(Recipient r : c.getMatches()){
+					String recName = r.getFirstName() + " " + r.getLastName();
+					pw.println(custName + " : " + recName);
+				}
+				pw.flush();
+			}
+			pw.close();
 			
 		}catch(Exception e){
 			e.printStackTrace();

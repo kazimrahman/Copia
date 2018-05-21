@@ -64,7 +64,7 @@ public class Customer extends User{
 					 int valid = this.categories^recipients.get(i).getRestrictions();
 					 if(conditionsMet(valid) && validTimes(recipients.get(i))) {
 						 this.matches.add(recipients.get(i));
-						 System.out.println(recipients.get(i).getFirstName());
+						 //System.out.println(recipients.get(i).getFirstName());
 					 }
 				 }
 			 }
@@ -91,18 +91,13 @@ public class Customer extends User{
 		
 		boolean validTimes(Recipient r) {
 			ArrayList<Integer> a = r.getTimes();
-			String pDay = this.getPickUp()[0];
-			//System.out.println(pDay);
-			int pD = convertToInt(pDay);
-			int pTime = Integer.valueOf(this.getPickUp()[3]);
-			int t = r.getTimes().get(pD);
-			//System.out.println(t);
-			int[] ti = convertToBinary(t);
-			
-			
+			String day = this.getPickUp()[0];
+			int numericDay = convertToInt(day);
+			int hoursOpen = r.getTimes().get(numericDay);
+			int[] binaryTime = convertToBinary(hoursOpen);
 			int promisedTime = Integer.valueOf(this.getPickUp()[3]);
-			int p = promisedTimetoBit(promisedTime);
-			if(ti[p] == 1) {
+			int promisedWindow = promisedTimetoBit(promisedTime);
+			if(binaryTime[promisedWindow] == 1) {
 				return true;
 			}else {
 				return false;
@@ -111,7 +106,6 @@ public class Customer extends User{
 		
 		int promisedTimetoBit(int promised) {
 			int result = -1;
-			//System.out.println("Promised: " + promised);
 			switch(promised) {
 				case 8: result = 0; 
 						break;
@@ -162,7 +156,6 @@ public class Customer extends User{
 					nextDay(p);
 				}
 				p[3] = Integer.toString(y);
-				//System.out.println(Arrays.toString(p));
 			}
 			return p;
 		}
@@ -181,7 +174,6 @@ public class Customer extends User{
 		    	container[j] = container[container.length-j-1];
 		    	container[container.length-j-1] = temp;
 		    }
-		    //System.out.print(Arrays.toString(container));
 		    return container;
 		}
 		
