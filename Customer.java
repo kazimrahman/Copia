@@ -1,13 +1,14 @@
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class Customer extends User{
 		
 		private int categories;
 		private String[] pickUp;
 		private String timeZone;
-		private ArrayList<Recipient> matches;
+		private Map<Recipient, Double> matches = new HashMap<Recipient, Double>();
 		
 		public Customer(String firstName, String lastName, String street, String city,
 				String state, String postal, String country,String email, String phone,
@@ -16,55 +17,23 @@ public class Customer extends User{
 			this.categories = categories;
 			this.pickUp = new String[8];
 			this.timeZone = timeZone;
-			this.matches = new ArrayList<Recipient>();
+			//this.matches = new LinkedHashMap<Recipient, Double>();
 		}
 		
 		public Customer() {
 		}
-
-		public int getCategories() {
-			return categories;
-		}
-
-		public void setCategories(int categories) {
-			this.categories = categories;
-		}
-
-		public String[] getPickUp() {
-			return pickUp;
-		}
-
-		public void setPickUp(String[] pickUp) {
-			this.pickUp = pickUp;
-		}
 		
-		public String getTimeZone() {
-			return timeZone;
-		}
-
-		public void setTimeZone(String timeZone) {
-			this.timeZone = timeZone;
-		}
-		
-		public ArrayList<Recipient> getMatches() {
-			return matches;
-		}
-		
-		public void setMatches(ArrayList<Recipient> matches) {
-			this.matches = matches;
-		}
-		
-		//only criteria are distance, food conditions at this point
-		public ArrayList<Recipient> match(ArrayList<Recipient> recipients){
+		//main algorithm, matches based on distance, food type, pickup timing
+		public Map<Recipient, Double> match(ArrayList<Recipient> recipients){
 			 for(int i = 0; i < recipients.size();i++){
 				 //check distance
 				 double d = User.distance(this, recipients.get(i));
 				 if(d <=10.0) {
 					 //if distance is close, check if food conditions are met
+					 //XOR the food bits with restrictions to see if valid
 					 int valid = this.categories^recipients.get(i).getRestrictions();
 					 if(conditionsMet(valid) && validTimes(recipients.get(i))) {
-						 this.matches.add(recipients.get(i));
-						 //System.out.println(recipients.get(i).getFirstName());
+						 this.matches.put(recipients.get(i), d);
 					 }
 				 }
 			 }
@@ -190,9 +159,9 @@ public class Customer extends User{
 				return 4;
 			}else if(day.equals("Fri")) {
 				return 5;
-			}else{
+			}else if(day.equals("Sat")){
 				return 6;
-			}
+			}else {return -1;}
 		}
 		
 		static void nextDay(String[] p) {
@@ -212,5 +181,56 @@ public class Customer extends User{
 				p[0] = "Sun";
 			}
 		}
-	    
+		
+		public Map<Recipient, Double> sortByComparator(Map<Recipient, Double> unsortMap){
+
+	        List<Entry<Recipient, Double>> list = new LinkedList<Entry<Recipient, Double>>(unsortMap.entrySet());
+
+	        // Sorting the list based on values
+	        Collections.sort(list, new Comparator<Entry<Recipient, Double>>(){
+	            public int compare(Entry<Recipient, Double> o1,Entry<Recipient, Double> o2){
+	            	return o1.getValue().compareTo(o2.getValue());   
+	            }
+	        });
+
+	        // Maintaining insertion order with the help of LinkedList
+	        Map<Recipient, Double> sortedMap = new LinkedHashMap<Recipient, Double>();
+	        for (Entry<Recipient, Double> entry : list){
+	            sortedMap.put(entry.getKey(), entry.getValue());
+	        }
+
+	        return sortedMap;
+	    }
+		
+		public int getCategories() {
+			return categories;
+		}
+
+		public void setCategories(int categories) {
+			this.categories = categories;
+		}
+
+		public String[] getPickUp() {
+			return pickUp;
+		}
+
+		public void setPickUp(String[] pickUp) {
+			this.pickUp = pickUp;
+		}
+		
+		public String getTimeZone() {
+			return timeZone;
+		}
+
+		public void setTimeZone(String timeZone) {
+			this.timeZone = timeZone;
+		}
+		
+		public Map<Recipient, Double> getMatches() {
+			return matches;
+		}
+		
+		public void setMatches(Map<Recipient, Double> matches) {
+			this.matches = matches;
+		}
 }
