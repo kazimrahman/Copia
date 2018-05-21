@@ -88,7 +88,7 @@ public class Copia{
 				i++;
 			}
 			System.out.println("Customers: " + customers.size() + " Recipients: "+ recipients.size());
-			customers.get(0).match(recipients);
+			customers.get(159).match(recipients);
 			
 		}catch(Exception e){
 			e.printStackTrace();

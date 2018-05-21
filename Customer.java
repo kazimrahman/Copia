@@ -92,70 +92,60 @@ public class Customer extends User{
 		boolean validTimes(Recipient r) {
 			ArrayList<Integer> a = r.getTimes();
 			String pDay = this.getPickUp()[0];
-			System.out.println(pDay);
+			//System.out.println(pDay);
 			int pD = convertToInt(pDay);
 			int pTime = Integer.valueOf(this.getPickUp()[3]);
 			int t = r.getTimes().get(pD);
-			int promisedTime = Integer.valueOf(this.getPickUp()[3]);
-			promisedTime = promisedTimetoBin(23);
-			System.out.println("t: " + t + " DAY: " + pD+ " cust time: "+ promisedTime);
+			//System.out.println(t);
+			int[] ti = convertToBinary(t);
 			
-			return true;
+			
+			int promisedTime = Integer.valueOf(this.getPickUp()[3]);
+			int p = promisedTimetoBit(promisedTime);
+			if(ti[p] == 1) {
+				return true;
+			}else {
+				return false;
+			}
 		}
 		
-		int promisedTimetoBin(int promised) {
-			int[] bin = new int[16];
-			System.out.println("Promised: " + promised);
+		int promisedTimetoBit(int promised) {
+			int result = -1;
+			//System.out.println("Promised: " + promised);
 			switch(promised) {
-				case 8: bin[0] = 1; 
+				case 8: result = 0; 
 						break;
-				case 9: bin[1] = 1;
+				case 9: result = 1;
 						break;
-				case 10: bin[2] = 1;
+				case 10: result = 2;
 						break;
-				case 11: bin[3] = 1;
+				case 11: result = 3;
 						break;
-				case 12: bin[4] = 1; 
-				break;
-				case 13: bin[5] = 1; 
-				break;
-				case 14: bin[6] = 1; 
-				break;
-				case 15: bin[7] = 1; 
-				break;
-				case 16: bin[8] = 1; 
+				case 12: result = 4; 
 						break;
-				case 17: bin[9] = 1; 
-				break; 
-				case 18: bin[10] = 1; 
-				break; 
-				case 19: bin[11] = 1; 
-				break; 
-				case 20: bin[12] = 1; 
-				break; 
-				case 21: bin[13] = 1; 
-				break; 
-				case 22: bin[14] = 1; 
-				break;
-				case 23: bin[15] = 1; 
-				break; 
+				case 13: result = 5; 
+						break;
+				case 14: result = 6; 
+						break;
+				case 15: result = 7; 
+						break;
+				case 16: result = 8; 
+						break;
+				case 17: result = 9; 
+						break; 
+				case 18: result = 10; 
+						break; 
+				case 19: result = 11; 
+						break; 
+				case 20: result = 12; 
+						break; 
+				case 21: result = 13; 
+						break; 
+				case 22: result = 14; 
+						break;
+				case 23: result = 15; 
+						break; 
 			}
-			for(int i = 0; i < bin.length/2; i++) {
-				int temp = bin[i];
-				bin[i] = bin[bin.length - i-1];
-				bin[bin.length - i - 1] = temp;
-			}
-			StringBuilder num = new StringBuilder("");
-			int result = 0;
-			for(int i = 0; i < bin.length; i++) {
-				System.out.println(result);
-				  result*=10;
-				  result+=bin[i];
-			}
-			//num.append("0");
-			//int finalInt = Integer.parseInt(num.toString());
-			System.out.println(result);
-
 			return result;
 		}
 		
@@ -175,6 +165,24 @@ public class Customer extends User{
 				//System.out.println(Arrays.toString(p));
 			}
 			return p;
+		}
+		
+		static int[] convertToBinary(int no){
+		    int container[] = new int[16];
+		    int i = 0;
+		    while (no > 0){
+		        container[i] = no%2;
+		        i++;
+		        no = no/2;
+		    }
+		    int temp = 0;
+		    for (int j = 0 ; j < container.length/2 ; j++){
+		    	temp = container[j];
+		    	container[j] = container[container.length-j-1];
+		    	container[container.length-j-1] = temp;
+		    }
+		    //System.out.print(Arrays.toString(container));
+		    return container;
 		}
 		
 		static int convertToInt(String day) {
