@@ -14,15 +14,20 @@ public class Copia{
 			
 			customers = initializeCustomer(customerData);
 			recipients = initializeRecipient(recipientData);
-			
 			//output matches and stuff to csv
 			PrintWriter pw = new PrintWriter(outFile);
-			pw.println("CustomerFirstName, CustomerLastName, RecipientFirstName, RecipientLastName, Distance");
+			pw.println("CustomerFirstName,CustomerLastName,CustomerStreet,CustomerCity,"
+					+ "CustomerState,CustomerPostal,CustomerEmail,CustomerPhone,PickUpDay,PickUpMonth,PickUpDate,"
+					+ "PickUpHour,PickUpMinute,PickUpTimeZone,RecipientFirstName,"
+					+ "RecipientLastName,RecipientStreet,RecipientCity,RecipientState,RecipientPostal,"
+					+ "RecipientEmail,RecipientPhone,RecipientHours,Distance");
 			for(Customer c : customers) {
+				// matches customers to recipients
 				c.match(recipients);
 				c.sortByComparator(c.getMatches());
 				for (Entry<Recipient, Double> entry : c.getMatches().entrySet())
 		        {
+					//writes output
 					writeOutputLine(outFile, c, entry, pw);
 		        }
 			}
@@ -30,8 +35,10 @@ public class Copia{
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println("done");
+		System.out.println("Done. Matches contained in 'Matches.csv'");
 	}
+	
+	
 	public static ArrayList<Customer> initializeCustomer(File customerFile) throws FileNotFoundException {
 		ArrayList<Customer> customers = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new FileReader(customerFile));
@@ -66,6 +73,7 @@ public class Copia{
 			//System.out.println(c.getFirstName() +" "+c.getPickUp()[3]);
 			customers.add(c);
 		}
+		sc.close();
 		return customers;
 	}
 	
@@ -108,18 +116,29 @@ public class Copia{
 			r.getTimes().add(Global.Thursday, Thu);
 			r.getTimes().add(Global.Friday, Fri);
 			r.getTimes().add(Global.Saturday, Sat);
-			recipients.add(r);
-			//System.out.println(recipients.get(i).getTimes().get(Global.Sunday));
-		
+			recipients.add(r);		
 		}
+		sc1.close();
 		return recipients;
 	}
 	
 	public static void writeOutputLine(File out, Customer c, Entry<Recipient, Double> e, PrintWriter p) throws FileNotFoundException {
-		//pw.write("Customer_FirstName, Customer_LastName, ");
-		String custName = c.getFirstName() + ", " + c.getLastName() + ", ";
-		String recpName = e.getKey().getFirstName() + ", " + e.getKey().getLastName();
-        p.println(custName + recpName + ", "+ e.getValue());
+		Recipient r = e.getKey();
+		double distance = e.getValue();
+		int day = Customer.convertToInt(c.getPickUp()[0]);
+		
+		String custName = c.getFirstName() + "," + c.getLastName() + ",";
+		String custAddress = c.getStreet() + "," + c.getCity() + "," + c.getState() + "," + c.getPostal() + ",";
+		String custContactInfo = c.getEmail() + "," + c.getPhone() + ",";
+		String custPickUpTime = c.getPickUp()[0] + "," + c.getPickUp()[1] + "," + c.getPickUp()[2] + "," 
+				+ c.getPickUp()[3] + "," + c.getPickUp()[4] + "," + c.getPickUp()[6] + ",";
+		
+		String recpName = r.getFirstName() + "," + r.getLastName() + ",";
+		String recpAddress = r.getStreet() + "," + r.getCity() + "," + r.getState() + "," + r.getPostal() + ",";
+		String recpContactInfo = r.getEmail() + "," + r.getPhone() + ",";
+		String recpTime = String.valueOf(r.getTimes().get(day)) + ",";		
+		
+        p.println(custName  + custAddress + custContactInfo + custPickUpTime + recpName + recpAddress + recpContactInfo + recpTime + distance);
         p.flush();
 	}
 }

@@ -183,9 +183,7 @@ public class Customer extends User{
 		}
 		
 		public Map<Recipient, Double> sortByComparator(Map<Recipient, Double> unsortMap){
-
 	        List<Entry<Recipient, Double>> list = new LinkedList<Entry<Recipient, Double>>(unsortMap.entrySet());
-
 	        // Sorting the list based on values
 	        Collections.sort(list, new Comparator<Entry<Recipient, Double>>(){
 	            public int compare(Entry<Recipient, Double> o1,Entry<Recipient, Double> o2){
@@ -193,7 +191,7 @@ public class Customer extends User{
 	            }
 	        });
 
-	        // Maintaining insertion order with the help of LinkedList
+	        // Maintaining insertion order with LinkedList
 	        Map<Recipient, Double> sortedMap = new LinkedHashMap<Recipient, Double>();
 	        for (Entry<Recipient, Double> entry : list){
 	            sortedMap.put(entry.getKey(), entry.getValue());
