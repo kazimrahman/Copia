@@ -96,8 +96,67 @@ public class Customer extends User{
 			int pD = convertToInt(pDay);
 			int pTime = Integer.valueOf(this.getPickUp()[3]);
 			int t = r.getTimes().get(pD);
-			System.out.println("t: " + t + " DAY: " + pD);
+			int promisedTime = Integer.valueOf(this.getPickUp()[3]);
+			promisedTime = promisedTimetoBin(23);
+			System.out.println("t: " + t + " DAY: " + pD+ " cust time: "+ promisedTime);
+			
 			return true;
+		}
+		
+		int promisedTimetoBin(int promised) {
+			int[] bin = new int[16];
+			System.out.println("Promised: " + promised);
+			switch(promised) {
+				case 8: bin[0] = 1; 
+						break;
+				case 9: bin[1] = 1;
+						break;
+				case 10: bin[2] = 1;
+						break;
+				case 11: bin[3] = 1;
+						break;
+				case 12: bin[4] = 1; 
+				break;
+				case 13: bin[5] = 1; 
+				break;
+				case 14: bin[6] = 1; 
+				break;
+				case 15: bin[7] = 1; 
+				break;
+				case 16: bin[8] = 1; 
+						break;
+				case 17: bin[9] = 1; 
+				break; 
+				case 18: bin[10] = 1; 
+				break; 
+				case 19: bin[11] = 1; 
+				break; 
+				case 20: bin[12] = 1; 
+				break; 
+				case 21: bin[13] = 1; 
+				break; 
+				case 22: bin[14] = 1; 
+				break;
+				case 23: bin[15] = 1; 
+				break; 
+			}
+			for(int i = 0; i < bin.length/2; i++) {
+				int temp = bin[i];
+				bin[i] = bin[bin.length - i-1];
+				bin[bin.length - i - 1] = temp;
+			}
+			StringBuilder num = new StringBuilder("");
+			int result = 0;
+			for(int i = 0; i < bin.length; i++) {
+				System.out.println(result);
+				  result*=10;
+				  result+=bin[i];
+			}
+			//num.append("0");
+			//int finalInt = Integer.parseInt(num.toString());
+			System.out.println(result);
+
+			return result;
 		}
 		
 		//takes csv value time and converts to an easy to parse string
@@ -137,47 +196,21 @@ public class Customer extends User{
 		}
 		
 		static void nextDay(String[] p) {
-			if(p[0]=="Sun") {
+			if(p[0].equals("Sun")) {
 				p[0] = "Mon";
-			}else if(p[0]=="Mon") {
+			}else if(p[0].equals("Mon")) {
 				p[0] = "Tue";
-			}else if(p[0]=="Wed") {
-				p[0] = "Thu";
-			}else if(p[0]=="Thu") {
-				p[0] = "Fri";
-			}else if(p[0]=="Fri") {
-				p[0] = "Sat";
-			}else if(p[0]=="Tue") {
+			}else if(p[0].equals("Tue")) {
 				p[0] = "Wed";
-			}else if(p[0]=="Sat") {
+			}else if(p[0].equals("Wed")) {
+				p[0] = "Thu";
+			}else if(p[0].equals("Thu")) {
+				p[0] = "Fri";
+			}else if(p[0].equals("Fri")) {
+				p[0] = "Sat";
+			}else if(p[0].equals("Sat")) {
 				p[0] = "Sun";
 			}
 		}
-	    static int toBinary(int n)
-	    {
-	        // array to store binary number
-	        int[] binaryNum = new int[1000];
-	  
-	        // counter for binary array
-	        int i = 0;
-	        while (n > 0) 
-	        {
-	            // storing remainder in binary array
-	            binaryNum[i] = n % 2;
-	            n = n / 2;
-	            i++;
-	        }
-	        System.out.println(Arrays.toString(binaryNum));
-	        Collections.reverse(Arrays.asList(binaryNum));
-	        System.out.println(Arrays.toString(binaryNum));
-	        StringBuilder strNum = new StringBuilder();
-
-	        for (int num : binaryNum) 
-	        {
-	             strNum.append(num);
-	        }
-	        int binary = Integer.parseInt(strNum.toString());
-	        return binary;
-	    }
 	    
 }
