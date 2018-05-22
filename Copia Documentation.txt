@@ -2,13 +2,13 @@ COPIA DOCUMENTATION:
 DURATION: 5/15/18 - 5/22/18
 
 FRAMEWORKS USED: JUNIT, HAMCREST, Java 8
+DEVELOPED ON ECLIPSE, WINDOWS 10
 
 SUBMITTING : Copia.java, Customers.csv, Recipients.csv, Matches.csv
 INPUT FILES : Customers.csv, Recipients.csv (Make sure these are in same directory as project)
 OUTPUT FILES : Matches.csv (automatically created)
 
 TO RUN: no extra arguments needed e.g "java Copia" should work
-
 
 Initial Thoughts:----------------------------------------------
 PLANS:
