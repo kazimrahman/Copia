@@ -34,7 +34,7 @@ public abstract class User {
 		
 	}
 	
-	/* -----Calculates the distance between two Users----- */
+	// Calculates the distance between two Users
 	public static double distance(User c, User r) {
 		double lon1 = c.getLongitude();
 		double lon2 = r.getLongitude();
@@ -46,12 +46,12 @@ public abstract class User {
 		return dist;
 	}
 
-	/* -----Converts decimal degrees to radians----- */
+	// Converts decimal degrees to radians
 	static double deg2rad(double deg) {
 		return (deg * Math.PI / 180.0);
 	}
 
-	/* -----Converts radians to decimal degrees----- */
+	// Converts radians to decimal degrees
 	static double rad2deg(double rad) {
 		return (rad * 180.0 / Math.PI);
 	}

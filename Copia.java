@@ -24,10 +24,10 @@ public class Copia{
 			for(Customer c : customers) {
 				// matches customers to recipients
 				c.match(recipients);
+				// sorting by distance
 				c.sortByComparator(c.getMatches());
-				for (Entry<Recipient, Double> entry : c.getMatches().entrySet())
-		        {
-					//writes output
+				for (Entry<Recipient, Double> entry : c.getMatches().entrySet()){
+					//writes output for each match
 					writeOutputLine(outFile, c, entry, pw);
 		        }
 			}
@@ -124,19 +124,20 @@ public class Copia{
 	
 	public static void writeOutputLine(File out, Customer c, Entry<Recipient, Double> e, PrintWriter p) throws FileNotFoundException {
 		Recipient r = e.getKey();
-		double distance = e.getValue();
 		int day = Customer.convertToInt(c.getPickUp()[0]);
 		
 		String custName = c.getFirstName() + "," + c.getLastName() + ",";
 		String custAddress = c.getStreet() + "," + c.getCity() + "," + c.getState() + "," + c.getPostal() + ",";
 		String custContactInfo = c.getEmail() + "," + c.getPhone() + ",";
 		String custPickUpTime = c.getPickUp()[0] + "," + c.getPickUp()[1] + "," + c.getPickUp()[2] + "," 
-				+ c.getPickUp()[3] + "," + c.getPickUp()[4] + "," + c.getPickUp()[6] + ",";
+				+ c.getPickUp()[3] + "," + c.getPickUp()[4] + "," + "PST" + ",";
 		
 		String recpName = r.getFirstName() + "," + r.getLastName() + ",";
 		String recpAddress = r.getStreet() + "," + r.getCity() + "," + r.getState() + "," + r.getPostal() + ",";
 		String recpContactInfo = r.getEmail() + "," + r.getPhone() + ",";
 		String recpTime = String.valueOf(r.getTimes().get(day)) + ",";		
+		
+		double distance = e.getValue();
 		
         p.println(custName  + custAddress + custContactInfo + custPickUpTime + recpName + recpAddress + recpContactInfo + recpTime + distance);
         p.flush();

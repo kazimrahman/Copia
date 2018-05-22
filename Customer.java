@@ -8,7 +8,7 @@ public class Customer extends User{
 		private int categories;
 		private String[] pickUp;
 		private String timeZone;
-		private Map<Recipient, Double> matches = new HashMap<Recipient, Double>();
+		private Map<Recipient, Double> matches = new HashMap<>();
 		
 		public Customer(String firstName, String lastName, String street, String city,
 				String state, String postal, String country,String email, String phone,
@@ -17,7 +17,6 @@ public class Customer extends User{
 			this.categories = categories;
 			this.pickUp = new String[8];
 			this.timeZone = timeZone;
-			//this.matches = new LinkedHashMap<Recipient, Double>();
 		}
 		
 		public Customer() {
@@ -39,7 +38,7 @@ public class Customer extends User{
 			 }
 			return this.matches;
 		}
-		
+		// if xor of food conditions and restrictions are valid, return true
 		static boolean conditionsMet(int n){
 			// all bits are not set
 			if (n == 0) {
@@ -58,8 +57,8 @@ public class Customer extends User{
 			return true;
 		}
 		
+		// check if the recipient is open during pickup window
 		boolean validTimes(Recipient r) {
-			ArrayList<Integer> a = r.getTimes();
 			String day = this.getPickUp()[0];
 			int numericDay = convertToInt(day);
 			int hoursOpen = r.getTimes().get(numericDay);
@@ -73,6 +72,7 @@ public class Customer extends User{
 			}
 		}
 		
+		// converts the pickup time to a bit value
 		int promisedTimetoBit(int promised) {
 			int result = -1;
 			switch(promised) {
@@ -146,6 +146,7 @@ public class Customer extends User{
 		    return container;
 		}
 		
+		// takes a day and converts it to an integer, used for retrieving times from Recipient Times field
 		static int convertToInt(String day) {
 			if(day.equals("Sun")) {
 				return 0;
@@ -164,6 +165,7 @@ public class Customer extends User{
 			}else {return -1;}
 		}
 		
+		// when converting from PDT to PST time, if > 23, move to next day
 		static void nextDay(String[] p) {
 			if(p[0].equals("Sun")) {
 				p[0] = "Mon";

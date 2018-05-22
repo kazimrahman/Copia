@@ -4,10 +4,6 @@ public class Recipient extends User {
 	private int restrictions;
 	private ArrayList<Integer> times;
 	
-	public ArrayList<Integer> getTimes() {
-		return times;
-	}
-	
 	public Recipient(String firstName, String lastName, String street, String city,
 			String state, String postal, String country,String email, String phone,
 			double latitude, double longitude, int restrictions) {
@@ -18,7 +14,11 @@ public class Recipient extends User {
 	
 	public Recipient() {
 	}
-
+	
+	public ArrayList<Integer> getTimes() {
+		return times;
+	}
+	
 	public int getRestrictions() {
 		return restrictions;
 	}
