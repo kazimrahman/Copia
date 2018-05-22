@@ -86,3 +86,4 @@ CONCLUSION:
 - Majority of time was spent on figuring out how to design the matches so that I could sort based on a certain criteria (landed on distance for criteria, Map data structure for matches)
 - Played with concept of Factory design pattern, but decided it was verbose, unnecessary. 
 - Used Eclipse IDE for development.
+- Mistake made by not using Test Driven Development, learned a lot about testing with JUnit from this project.
