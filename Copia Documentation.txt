@@ -1,0 +1,88 @@
+COPIA DOCUMENTATION:
+DURATION: 5/15/18 - 5/22/18
+
+FRAMEWORKS USED: JUNIT, HAMCREST, Java 8
+
+SUBMITTING : Copia.java, Customers.csv, Recipients.csv, Matches.csv
+INPUT FILES : Customers.csv, Recipients.csv (Make sure these are in same directory as project)
+OUTPUT FILES : Matches.csv (automatically created)
+
+TO RUN: no extra arguments needed e.g "java Copia" should work
+
+
+Initial Thoughts:----------------------------------------------
+PLANS:
+- customer contains a list of eligible recipients
+- java DATEFORMAT ISO 8601
+- PLAN FOR PARSING DATE: convert given format to epoch?
+
+- YYYY-MM-DDTHR:MI:SS-
+- 2016-11-29T16:00:00-08:00
+- some kind of graph data structure?
+- How to model the times? → epoch or straight hard code time values to map to bits?
+
+
+- Convert int to binary
+- isEligible() → what parameter to narrow down by first? Distance? Food match? Figure this out. 
+
+- figure out design pattern
+
+DURING BUILD THOUGHTS:-------------------------------------------
+APPROACH:
+	DESIGN:
+		- Customer, Recipient classes defined from parent class User
+		- Use a Map data structure to house the matches
+
+TODO:
+- implement user factory?
+- food conditions
+- if pickup time over 24, mod and go to next day.
+- implement graph?? or other data structure
+- write csv file
+- figure out csv format
+- write tests
+
+COMPLETE:
+- Customer parser
+- Recipient parser
+- convert time to string[]
+
+TIME RESTRICTIONS:
+- must be open strictly during promised time.
+- if promised time is from 4-5 PM, recipient has to be open that time, not just opening at 5 PM.
+
+
+POST BUILD:------------------------------------------------------
+
+COPIA CLASS (Main):
+- Handles CSV file I/O, reading and writing
+- Initializes the objects required (Customer, Recipient)
+
+USER CLASS:
+- Parent class of Customer, Recipient
+- distance(): calculates the distance between two Users
+	- helper functions to convert radians to degrees, vice versa
+	- Haversine formula used
+
+CUSTOMER CLASS: 
+- User subclass
+- match(): main algorithm is here, checks if the Recipient is a valid match. Parses distance ( < 10 miles), food conditions, and timing windows.
+	- many helper functions used.
+	- XORs the food conditions from Customer with restrictions from Recipient to find valid matches.
+	- Checks if  distance is < 10 miles.
+	- Checks if Recipient timing is compatible with food pickup promised time
+- sortByComparator(): sorts the matches by distance
+- print to output CSV file. ALL TIMES ARE IN PST
+
+RECIPIENT CLASS:
+- User subclass
+- No extra functions needed here
+
+GLOBAL CLASS:
+- Used mainly to assign a numeric global value to days of the week, easier to initialize Time values
+
+CONCLUSION: 
+- Project was straightforward, instructions given were clear, concise. Accurate measure of capabilities, approach to problem solving.
+- Majority of time was spent on figuring out how to design the matches so that I could sort based on a certain criteria (landed on distance for criteria, Map data structure for matches)
+- Played with concept of Factory design pattern, but decided it was verbose, unnecessary. 
+- Used Eclipse IDE for development.

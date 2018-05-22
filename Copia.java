@@ -7,6 +7,7 @@ public class Copia{
 	public static void main(String[] args){
 		ArrayList<Recipient> recipients = new ArrayList<>();
 		ArrayList<Customer> customers = new ArrayList<>();
+		
 		try{
 			File customerData = new File("Customers.csv");
 			File recipientData = new File("Recipients.csv");
